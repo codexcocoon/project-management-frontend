@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../axios";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -15,12 +15,14 @@ export default function Login() {
     // console.log("password", password);
     try {
       const response = await api.post("/login", {
-        name,
         email,
         password,
       });
       const token = response.data.token;
+
+      localStorage.setItem("token", token);
       setMessage(response.data.message);
+      navigate("/dashboard");
     } catch (error) {
       if (error.response && error.response.data.message) {
         setMessage(error.response.data.message);
