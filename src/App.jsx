@@ -11,6 +11,9 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Projects from "./pages/Projects";
+import AddProject from "./pages/AddProject";
+import EditProject from "./pages/EditProject";
 
 function Layout() {
   const location = useLocation();
@@ -32,6 +35,30 @@ function Layout() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/projects"
+          element={
+            <ProtectedRoute>
+              <Projects />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/project/add"
+          element={
+            <ProtectedRoute>
+              <AddProject />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/project/edit/:id"
+          element={
+            <ProtectedRoute>
+              <EditProject />
             </ProtectedRoute>
           }
         ></Route>
