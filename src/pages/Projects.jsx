@@ -36,7 +36,7 @@ export default function Projects() {
           Authorization: `Bearer ${token}`,
         },
       });
-      setProjects(projects.filter((project)=>project.id !== id));
+      setProjects(projects.filter((project) => project.id !== id));
       alert("Project deleted successfully");
       navigate("/projects");
     } catch (error) {
@@ -102,9 +102,12 @@ export default function Projects() {
                       {project.due_date}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap flex gap-2">
-                      <button className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition">
+                      <Link
+                        to={`/project-detail/${project.id}`}
+                        className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition"
+                      >
                         View
-                      </button>
+                      </Link>
                       <Link
                         to={`/project/edit/${project.id}`}
                         className="px-3 py-1 bg-yellow-400 text-white text-sm rounded hover:bg-yellow-500 transition"
