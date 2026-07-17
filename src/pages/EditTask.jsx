@@ -2,33 +2,48 @@ import DashboardLayout from "../components/DashboardLayout";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import api from "../axios";
-export default function EditProject() {
+export default function EditTask() {
   const { id } = useParams();
+  const [projects, setProjects] = useState([]);
+  const [projectId, setProjectId] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   //   fetch project data from backend api
   useEffect(() => {
-    const fetchProject = async () => {
+    const fetchTaskAndProjects = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await api.get(`/projects/${id}`, {
+        // Fetch all projects
+
+        const projectResponse = await api.get("projects", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setTitle(response.data.name);
-        setDescription(response.data.description);
-        setDueDate(response.data.due_date);
+        setProjects(projectResponse.data);
+        // Get Task Data
+        const taskResponse = await api.get(`/tasks/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(taskResponse);
+        setTitle(taskResponse.data.title);
+        setDescription(taskResponse.data.description);
+        setStatus(taskResponse.data.status);
+        setDueDate(taskResponse.data.due_date);
+        setProjectId(taskResponse.data.project_id);
       } catch (error) {
         alert(error);
       } finally {
         setLoading(false);
       }
     };
-    fetchProject();
+    fetchTaskAndProjects();
   }, [id]);
 
   const handleUpdate = async (e) => {
@@ -37,11 +52,13 @@ export default function EditProject() {
     try {
       const token = localStorage.getItem("token");
       const response = await api.put(
-        `/projects/${id}`,
+        `/tasks/${id}`,
         {
-          name: title,
+          project_id: projectId,
+          title: title,
           description: description,
           due_date: dueDate,
+          status: status,
         },
         {
           headers: {
@@ -49,8 +66,8 @@ export default function EditProject() {
           },
         },
       );
-      alert("Project updated successfully");
-      navigate("/projects");
+      alert("Task updated successfully");
+      navigate("/tasks");
     } catch (error) {
       console.log(error.response.data.message);
       alert("Failed to add", error.response.data.message);
@@ -63,7 +80,7 @@ export default function EditProject() {
       <div className="p-6 bg-gray-50 min-h-screen">
         <div className="w-full bg-white shadow-md rounded-lg p-6">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-            Edit Project
+            Edit Task
           </h2>
           <form onSubmit={handleUpdate} className="space-y-4 w-full">
             {/* Title */}
@@ -81,7 +98,22 @@ export default function EditProject() {
                 required
               />
             </div>
-
+            {/* project */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Select Project
+              </label>
+              <select
+                value={projectId}
+                onChange={(e) => setProjectId(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2"
+              >
+                <option value="">...Select Project...</option>
+                {projects.map((project) => (
+                  <option value={project.id}>{project.name}</option>
+                ))}
+              </select>
+            </div>
             {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
@@ -111,7 +143,20 @@ export default function EditProject() {
                 required
               />
             </div>
-
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Select Status
+              </label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2"
+              >
+                <option value="pending">Pending</option>
+                <option value="in_progress">In progress</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
             {/* Submit Button */}
             <div>
               <button
