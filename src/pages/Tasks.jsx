@@ -2,7 +2,7 @@ import DashboardLayout from "../components/DashboardLayout";
 import React, { useEffect, useState } from "react";
 import api from "../axios";
 import { Link, useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
 export default function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -37,20 +37,17 @@ export default function Tasks() {
         },
       });
       setTasks(tasks.filter((task) => task.id !== id));
-      alert("Task deleted successfully");
+      toast.success("Task deleted successfully");
       navigate("/tasks");
     } catch (error) {
-      console.log("Error deleting task", error);
-      alert("Failed to delete");
+      toast.error(error);
     }
   };
   return (
     <DashboardLayout>
       <div className="p-6 bg-gray-50 min-h-screen">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-semibold text-gray-800 mb-6">
-            Tasks
-          </h1>
+          <h1 className="text-2xl font-semibold text-gray-800 mb-6">Tasks</h1>
           <Link
             to={`/task/add`}
             className="px-3 py-1 bg-blue-400 text-white text-lg rounded hover:bg-yellow-500 transition"

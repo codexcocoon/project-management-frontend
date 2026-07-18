@@ -17,7 +17,8 @@ import EditProject from "./pages/EditProject";
 import Tasks from "./pages/Tasks";
 import AddTask from "./pages/AddTask";
 import EditTask from "./pages/EditTask";
-import ProjectDetails from './pages/ProjectDetails';
+import ProjectDetails from "./pages/ProjectDetails";
+import { ToastContainer } from "react-toastify";
 
 function Layout() {
   const location = useLocation();
@@ -90,7 +91,7 @@ function Layout() {
             </ProtectedRoute>
           }
         ></Route>
-        
+
         <Route
           path="/task/edit/:id"
           element={
@@ -100,6 +101,18 @@ function Layout() {
           }
         ></Route>
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }

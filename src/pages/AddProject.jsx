@@ -2,6 +2,7 @@ import DashboardLayout from "../components/DashboardLayout";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../axios";
+import { toast } from "react-toastify";
 export default function AddProject() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -19,7 +20,7 @@ export default function AddProject() {
         {
           name: title,
           description: description,
-          dueDate: dueDate,
+          due_date: dueDate,
         },
         {
           headers: {
@@ -27,11 +28,10 @@ export default function AddProject() {
           },
         },
       );
-      alert("Project added successfully");
+      toast.success("Project added successfully");
       navigate("/projects");
     } catch (error) {
-      console.log(error.response.data.message);
-      alert("Failed to add", error);
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
     }

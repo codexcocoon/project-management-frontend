@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../axios";
+import { toast } from "react-toastify";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,13 +21,15 @@ export default function Login() {
       const user = response.data.user;
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
-      setMessage(response.data.message);
+      //   setMessage(response.data.message);
+      toast.success(response.data.message);
       navigate("/dashboard");
     } catch (error) {
       if (error.response && error.response.data.message) {
-        setMessage(error.response.data.message);
+        // setMessage(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setMessage(error.massage);
+        toast.error(error.message);
       }
     } finally {
       setLoading(false);
@@ -63,7 +66,7 @@ export default function Login() {
         <button className="w-full mb-3 bg-indigo-500 hover:bg-indigo-600 transition-all active:scale-95 py-2.5 rounded text-white font-medium">
           {loading ? "submitting" : "Log in"}
         </button>
-        {message && <p>{message}</p>}
+        {/* {message && <p>{message}</p>} */}
         <p className="text-center mt-4">
           Don't have an account?
           <Link to="/register" className="text-blue-500 underline">

@@ -2,6 +2,7 @@ import DashboardLayout from "../components/DashboardLayout";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import api from "../axios";
+import { toast } from "react-toastify";
 export default function EditTask() {
   const { id } = useParams();
   const [projects, setProjects] = useState([]);
@@ -31,14 +32,13 @@ export default function EditTask() {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(taskResponse);
         setTitle(taskResponse.data.title);
         setDescription(taskResponse.data.description);
         setStatus(taskResponse.data.status);
         setDueDate(taskResponse.data.due_date);
         setProjectId(taskResponse.data.project_id);
       } catch (error) {
-        alert(error);
+        toast.error(error);
       } finally {
         setLoading(false);
       }
@@ -66,11 +66,10 @@ export default function EditTask() {
           },
         },
       );
-      alert("Task updated successfully");
+      toast.success("Task updated successfully");
       navigate("/tasks");
     } catch (error) {
-      console.log(error.response.data.message);
-      alert("Failed to add", error.response.data.message);
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
     }

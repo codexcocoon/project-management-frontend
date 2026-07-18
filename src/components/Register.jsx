@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../axios";
+import { toast } from "react-toastify";
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,13 +23,15 @@ export default function Register() {
         email,
         password,
       });
-      setMessage(response.data.message);
+      //   setMessage(response.data.message);
+      toast.success(response.data.message);
       navigate("/login");
     } catch (error) {
       if (error.response && error.response.data.message) {
-        setMessage(error.response.data.message);
+        // setMessage(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setMessage(error.massage);
+        toast.error(error.message);
       }
     } finally {
       setLoading(false);
@@ -142,7 +145,7 @@ export default function Register() {
               />
             </svg>
           </button>
-          {message && <p>{message}</p>}
+          {/* {message && <p>{message}</p>} */}
           <p className="text-center mt-4">
             Already have an account?{" "}
             <Link to="/login" className="text-blue-500 underline">

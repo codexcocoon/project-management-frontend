@@ -1,6 +1,7 @@
 import DashboardLayout from "../components/DashboardLayout";
 import React, { useEffect, useState } from "react";
 import api from "../axios";
+import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -17,7 +18,7 @@ export default function Projects() {
         });
         setProjects(response.data);
       } catch (error) {
-        setMessage(error.massage);
+        toast.error(error.message);
       } finally {
         setLoading(false);
       }
@@ -37,11 +38,10 @@ export default function Projects() {
         },
       });
       setProjects(projects.filter((project) => project.id !== id));
-      alert("Project deleted successfully");
+      toast.success("Project deleted successfully");
       navigate("/projects");
     } catch (error) {
-      console.log("Error deleting project", error);
-      alert("Failed to delete");
+      toast.error(error);
     }
   };
   return (
