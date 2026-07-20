@@ -109,9 +109,7 @@ export default function Tasks() {
                       {task.status}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap flex gap-2">
-                      <button className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition">
-                        View
-                      </button>
+                      
                       <Link
                         to={`/task/edit/${task.id}`}
                         className="px-3 py-1 bg-yellow-400 text-white text-sm rounded hover:bg-yellow-500 transition"
