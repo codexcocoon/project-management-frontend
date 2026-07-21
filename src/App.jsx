@@ -111,7 +111,7 @@ function Layout() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme="colored"
       />
     </>
   );
