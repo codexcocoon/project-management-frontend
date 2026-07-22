@@ -9,3 +9,15 @@ export const registerService = async (userData) => {
   const response = await api.post("/register", userData);
   return response;
 };
+// handle logout
+export const logoutService = async (userData) => {
+  const response = await api.post(
+    "/logout",
+    {},
+    {
+      headers: {
+        Authorize: `Bearer ${token}`,
+      },
+    },
+  );
+};

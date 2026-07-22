@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { logoutService } from "../services/AuthService";
 // 1. create the context
 const AuthContext = createContext();
 // 2. provide contect wrapper
@@ -27,9 +28,12 @@ export function AuthProvider({ children }) {
     setToken(token);
     setUser(user);
   };
-  const logout = () => {
-    setToken(null);
-    setUser(null);
+  const logout = async (params) => {
+    const response = await logoutService(token);
+    if (response) {
+      setToken(null);
+      setUser(null);
+    }
   };
   return (
     <AuthContext.Provider value={{ token, user, login, logout }}>
