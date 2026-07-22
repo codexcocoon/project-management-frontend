@@ -3,14 +3,16 @@ import React, { useEffect, useState } from "react";
 import api from "../axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 export default function Tasks() {
+    const { token } = useAuth();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const token = localStorage.getItem("token");
+        // const token = localStorage.getItem("token");
         const response = await api.get("/tasks", {
           headers: {
             Authorization: `Bearer ${token}`,

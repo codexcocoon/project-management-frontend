@@ -2,7 +2,9 @@ import DashboardLayout from "../components/DashboardLayout";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import api from "../axios";
+import { useAuth } from "../context/AuthContext";
 export default function ProjectDetails() {
+  const { token } = useAuth();
   const { id } = useParams();
   const [projectDetails, setProjectDetails] = useState([]);
 
@@ -10,7 +12,7 @@ export default function ProjectDetails() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const token = localStorage.getItem("token");
+        // const token = localStorage.getItem("token");
         const response = await api.get(`/projects/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,

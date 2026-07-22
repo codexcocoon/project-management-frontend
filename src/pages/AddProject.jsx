@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../axios";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 export default function AddProject() {
+  const { token } = useAuth();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -14,7 +16,7 @@ export default function AddProject() {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem("token");
+    //   const token = localStorage.getItem("token");
       const response = await api.post(
         "/projects",
         {

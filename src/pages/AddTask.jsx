@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../axios";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 export default function AddTask() {
+  const { token } = useAuth();
   const [projects, setProjects] = useState([]);
   const [projectId, setProjectId] = useState("");
   const [title, setTitle] = useState("");
@@ -15,7 +17,7 @@ export default function AddTask() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const token = localStorage.getItem("token");
+        // const token = localStorage.getItem("token");
         const response = await api.get("/projects", {
           headers: {
             Authorization: `Bearer ${token}`,
