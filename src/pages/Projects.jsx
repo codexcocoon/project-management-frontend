@@ -4,8 +4,9 @@ import api from "../axios";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { getProjects } from "../services/ProjectService";
 export default function Projects() {
-    const { token } = useAuth();
+  const { token } = useAuth();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -13,11 +14,7 @@ export default function Projects() {
     const fetchProjects = async () => {
       try {
         // const token = localStorage.getItem("token");
-        const response = await api.get("/projects", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await getProjects(token);
         setProjects(response.data);
       } catch (error) {
         toast.error(error.message);
