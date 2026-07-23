@@ -4,7 +4,7 @@ import api from "../axios";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { getProjects } from "../services/ProjectService";
+import { getProjects, deleteProject } from "../services/ProjectService";
 export default function Projects() {
   const { token } = useAuth();
   const [projects, setProjects] = useState([]);
@@ -30,12 +30,8 @@ export default function Projects() {
     const confirmDelete = window.confirm("Are you sure ?");
     if (!confirmDelete) return;
     try {
-      const token = localStorage.getItem("token");
-      await api.delete(`projects/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      //   const token = localStorage.getItem("token");
+      await deleteProjects(id, token);
       setProjects(projects.filter((project) => project.id !== id));
       toast.success("Project deleted successfully");
       navigate("/projects");
